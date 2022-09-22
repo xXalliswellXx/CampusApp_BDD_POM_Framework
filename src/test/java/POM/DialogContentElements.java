@@ -1,6 +1,7 @@
 package POM;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -80,27 +81,34 @@ public class DialogContentElements extends BasePOM {
     @FindBy(xpath = "//div[contains(text(), 'success')]")
     private WebElement successMessage;
 
+    @FindBy(css = "mat-slide-toggle[formcontrolname='active']>label>span")
+    private WebElement statusSwitch;
+
+    @FindBy(css = "mat-progress-bar[role='progressbar']")
+    private WebElement progressBar;
+
+    @FindBy(css = "mat-select[role='combobox']")
+    private WebElement searchComboBox;
+
     // ############# Functions  #############
 
     // If there is no search functionality in the page
-    // this function will search and edit or delete specific data
+    // this function will search and press edit or delete button for specific data
     private void searchFromTable(String name, String action) {
 
-        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/grade-level"));
-
-        List<WebElement> gradeLevelsTableRows = driver.findElements(By.cssSelector("tbody>tr"));
+        List<WebElement> tableRows = driver.findElements(By.cssSelector("tbody>tr"));
 
         WebElement button;
 
-        for (WebElement row : gradeLevelsTableRows) {
+        for (WebElement row : tableRows) {
 
             List<WebElement> cells = row.findElements(By.cssSelector("td"));
 
             if (cells.get(1).getText().equals(name) && action.equals("edit")) {
-                button = cells.get(6).findElement(By.cssSelector("ms-edit-button>button"));
+                button = cells.get(cells.size() - 1).findElement(By.cssSelector("ms-edit-button>button"));
                 waitUntilVisibleAndClickableThenClick(button);
             } else if (cells.get(1).getText().equals(name) && action.equals("delete")){
-                button = cells.get(6).findElement(By.cssSelector("ms-delete-button>button"));
+                button = cells.get(cells.size() - 1).findElement(By.cssSelector("ms-delete-button>button"));
                 waitUntilVisibleAndClickableThenClick(button);
             }
         }
@@ -242,6 +250,8 @@ public class DialogContentElements extends BasePOM {
 
     public void editGradeLevel(String name, String updatedName, String updatedShortName, String updatedOrder) {
 
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/grade-level"));
+
         searchFromTable(name, "edit");
 
         nameInput.clear();
@@ -256,6 +266,8 @@ public class DialogContentElements extends BasePOM {
     }
 
     public void deleteGradeLevel(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/grade-level"));
 
         searchFromTable(name, "delete");
 
@@ -342,6 +354,69 @@ public class DialogContentElements extends BasePOM {
 
 
     // #################### Bank Account Test Functions End ####################
+
+
+    // #################### Departments Test Functions Start ####################
+
+    public void createDepartment(String departmentName, String code) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/school-department"));
+
+        addButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.sendKeys(departmentName);
+        codeInput.sendKeys(code);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editDepartment(String departmentName, String updatedDepartmentName, String updatedCode, String updatedStatus) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/school-department"));
+
+        wait.until(ExpectedConditions.elementToBeClickable(searchComboBox));
+
+        waitUntilVisibleAndClickableThenClick(searchButton);
+
+        wait.until(ExpectedConditions.invisibilityOf(progressBar));
+
+        searchFromTable(departmentName, "edit");
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.clear();
+        nameInput.sendKeys(updatedDepartmentName);
+
+        codeInput.clear();
+        codeInput.sendKeys(updatedCode);
+
+        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(updatedStatus))
+            statusSwitch.click();
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deleteDepartment(String departmentName) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/school-department"));
+
+        wait.until(ExpectedConditions.elementToBeClickable(searchComboBox));
+
+        waitUntilVisibleAndClickableThenClick(searchButton);
+
+        wait.until(ExpectedConditions.invisibilityOf(progressBar));
+
+        searchFromTable(departmentName, "delete");
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+    // #################### Departments Test Functions End ####################
 
     public void validateSuccessMessage() {
 

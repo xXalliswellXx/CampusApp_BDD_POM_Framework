@@ -33,6 +33,12 @@ public class NavigationBarElements extends BasePOM {
     @FindBy(xpath = "//span[text()='Bank Accounts']/..")
     private WebElement bankAccountsLink;
 
+    @FindBy(xpath = "//span[text()='School Setup']/..")
+    private WebElement schoolSetupLink;
+
+    @FindBy(xpath = "//span[text()='Departments']/..")
+    private WebElement departmentsLink;
+
     // ############# Functions  #############
 
     public void navigateToNationalitiesPage() {
@@ -63,6 +69,12 @@ public class NavigationBarElements extends BasePOM {
         waitUntilVisibleAndClickableThenClick(setupLink);
         waitUntilVisibleAndClickableThenClick(parametersLink);
         waitUntilVisibleAndClickableThenClick(bankAccountsLink);
+    }
+
+    public void navigateToDepartmentsPage() {
+        waitUntilVisibleAndClickableThenClick(setupLink);
+        waitUntilVisibleAndClickableThenClick(schoolSetupLink);
+        waitUntilVisibleAndClickableThenClick(departmentsLink);
     }
 
 }
