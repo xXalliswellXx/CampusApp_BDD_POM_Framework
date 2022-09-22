@@ -2,6 +2,7 @@ package POM;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -57,6 +58,18 @@ public class DialogContentElements extends BasePOM {
 
     @FindBy(css = "ms-text-field[formcontrolname='order']>input")
     private WebElement orderInput;
+
+    @FindBy(css = "ms-masked-text-field[formcontrolname='iban']>input")
+    private WebElement ibanInput;
+
+    @FindBy(css = "mat-select[formcontrolname='currency']")
+    private WebElement currencyDropdown;
+
+    @FindAll(@FindBy(css = "div[role='listbox']>mat-option"))
+    private List<WebElement> currencyList;
+
+    @FindBy(css = "ms-text-field[formcontrolname='integrationCode']>input")
+    private WebElement integrationCodeInput;
 
     @FindBy(css = "ms-save-button>button")
     private WebElement saveButton;
@@ -248,6 +261,84 @@ public class DialogContentElements extends BasePOM {
     }
 
     // #################### Grade Level Test Functions End ####################
+
+
+
+    // #################### Bank Account Test Functions Start ####################
+
+
+    private void searchBankAccount(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/bank-account/list"));
+
+        wait.until(ExpectedConditions.visibilityOf(searchNameInput));
+        searchNameInput.sendKeys(name);
+
+        waitUntilVisibleAndClickableThenClick(searchButton);
+
+        waitUntilTableHasOnlyOneElement();
+
+    }
+
+    private void selectCurrency(String currency) {
+
+        currencyDropdown.click();
+
+        for (WebElement element : currencyList) {
+            if (element.getText().contains(currency))
+                element.click();
+        }
+
+    }
+
+    public void createBankAccount(String name, String iban, String currency, String integrationCode) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/bank-account/list"));
+
+        addButton.click();
+
+        nameInput.sendKeys(name);
+        ibanInput.sendKeys(iban);
+        integrationCodeInput.sendKeys(integrationCode);
+
+        selectCurrency(currency);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editBankAccount(String name, String updatedName,
+                                  String updatedIban, String updatedCurrency, String updatedIntegrationCode) {
+
+        searchBankAccount(name);
+
+        editButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+        nameInput.clear();
+        nameInput.sendKeys(updatedName);
+        ibanInput.clear();
+        ibanInput.sendKeys(updatedIban);
+        integrationCodeInput.sendKeys(updatedIntegrationCode);
+
+        selectCurrency(updatedCurrency);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deleteBankAccount(String name) {
+
+        searchBankAccount(name);
+
+        deleteButton.click();
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+
+    // #################### Bank Account Test Functions End ####################
 
     public void validateSuccessMessage() {
 
