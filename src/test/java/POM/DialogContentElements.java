@@ -1,10 +1,13 @@
 package POM;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+
+import java.util.List;
 
 public class DialogContentElements extends BasePOM {
 
@@ -48,6 +51,12 @@ public class DialogContentElements extends BasePOM {
 
     @FindBy(css = "ms-integer-field>input")
     private WebElement priorityInput;
+
+    @FindBy(css = "ms-text-field[formcontrolname='shortName']>input")
+    private WebElement shortNameInput;
+
+    @FindBy(css = "ms-text-field[formcontrolname='order']>input")
+    private WebElement orderInput;
 
     @FindBy(css = "ms-save-button>button")
     private WebElement saveButton;
@@ -171,6 +180,74 @@ public class DialogContentElements extends BasePOM {
     }
 
     // #################### Discount Test Functions End ####################
+
+
+
+    // #################### Grade Level Test Functions Start ####################
+
+    private void searchGradeLevel(String name, String action) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/grade-level"));
+
+        List<WebElement> gradeLevelsTableRows = driver.findElements(By.cssSelector("tbody>tr"));
+
+        WebElement button;
+
+        for (WebElement row : gradeLevelsTableRows) {
+
+            List<WebElement> cells = row.findElements(By.cssSelector("td"));
+
+            if (cells.get(1).getText().equals(name) && action.equals("edit")) {
+                button = cells.get(6).findElement(By.cssSelector("ms-edit-button>button"));
+                waitUntilVisibleAndClickableThenClick(button);
+            } else if (cells.get(1).getText().equals(name) && action.equals("delete")){
+                button = cells.get(6).findElement(By.cssSelector("ms-delete-button>button"));
+                waitUntilVisibleAndClickableThenClick(button);
+            }
+        }
+
+    }
+
+    public void createGradeLevel(String name, String shortName, String order) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/grade-level"));
+
+        addButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.sendKeys(name);
+        shortNameInput.sendKeys(shortName);
+        orderInput.sendKeys(order);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editGradeLevel(String name, String updatedName, String updatedShortName, String updatedOrder) {
+
+        searchGradeLevel(name, "edit");
+
+        nameInput.clear();
+        nameInput.sendKeys(updatedName);
+        shortNameInput.clear();
+        shortNameInput.sendKeys(updatedShortName);
+        orderInput.clear();
+        orderInput.sendKeys(updatedOrder);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deleteGradeLevel(String name) {
+
+        searchGradeLevel(name, "delete");
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+    // #################### Grade Level Test Functions End ####################
 
     public void validateSuccessMessage() {
 

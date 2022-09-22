@@ -27,6 +27,9 @@ public class NavigationBarElements extends BasePOM {
     @FindBy(xpath = "//span[text()='Discounts']/..")
     private WebElement discountsLink;
 
+    @FindBy(xpath = "//span[text()='Grade Levels']/..")
+    private WebElement gradeLevelsLink;
+
     // ############# Functions  #############
 
     public void navigateToNationalitiesPage() {
@@ -42,6 +45,14 @@ public class NavigationBarElements extends BasePOM {
         waitUntilVisibleAndClickableThenClick(setupLink);
         waitUntilVisibleAndClickableThenClick(parametersLink);
         waitUntilVisibleAndClickableThenClick(discountsLink);
+
+    }
+
+    public void navigateToGradeLevelsPage() {
+
+        waitUntilVisibleAndClickableThenClick(setupLink);
+        waitUntilVisibleAndClickableThenClick(parametersLink);
+        waitUntilVisibleAndClickableThenClick(gradeLevelsLink);
 
     }
 
