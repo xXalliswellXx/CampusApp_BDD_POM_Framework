@@ -1,5 +1,7 @@
 package POM;
 
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class NavigationBarElements extends BasePOM {
@@ -13,9 +15,23 @@ public class NavigationBarElements extends BasePOM {
 
     // ############# Web Elements  #############
 
+    @FindBy(xpath = "(//span[text()='Setup'])[1]/..")
+    private WebElement setupLink;
+
+    @FindBy(xpath = "(//span[text()='Parameters'])[1]/..")
+    private WebElement parametersLink;
+
+    @FindBy(xpath = "(//span[text()='Nationalities'])[1]/..")
+    private WebElement nationalitiesLink;
 
     // ############# Functions  #############
 
+    public void navigateToNationalitiesPage() {
 
+        waitUntilVisibleAndClickableThenClick(setupLink);
+        waitUntilVisibleAndClickableThenClick(parametersLink);
+        waitUntilVisibleAndClickableThenClick(nationalitiesLink);
+
+    }
 
 }
