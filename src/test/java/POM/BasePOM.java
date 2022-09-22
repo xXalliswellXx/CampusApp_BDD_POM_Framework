@@ -1,6 +1,7 @@
 package POM;
 
 import Utils.Driver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,6 +18,10 @@ public class BasePOM {
         wait.until(ExpectedConditions.visibilityOf(element));
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.click();
+    }
+
+    public void waitUntilTableHasOnlyOneElement() {
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("tbody>tr"), 1));
     }
 
 }
