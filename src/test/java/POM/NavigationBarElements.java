@@ -21,8 +21,11 @@ public class NavigationBarElements extends BasePOM {
     @FindBy(xpath = "(//span[text()='Parameters'])[1]/..")
     private WebElement parametersLink;
 
-    @FindBy(xpath = "(//span[text()='Nationalities'])[1]/..")
+    @FindBy(xpath = "//span[text()='Nationalities']/..")
     private WebElement nationalitiesLink;
+
+    @FindBy(xpath = "//span[text()='Discounts']/..")
+    private WebElement discountsLink;
 
     // ############# Functions  #############
 
@@ -31,6 +34,14 @@ public class NavigationBarElements extends BasePOM {
         waitUntilVisibleAndClickableThenClick(setupLink);
         waitUntilVisibleAndClickableThenClick(parametersLink);
         waitUntilVisibleAndClickableThenClick(nationalitiesLink);
+
+    }
+
+    public void navigateToDiscountsPage() {
+
+        waitUntilVisibleAndClickableThenClick(setupLink);
+        waitUntilVisibleAndClickableThenClick(parametersLink);
+        waitUntilVisibleAndClickableThenClick(discountsLink);
 
     }
 

@@ -22,6 +22,9 @@ public class DialogContentElements extends BasePOM {
     @FindBy(css = "ms-text-field[placeholder='GENERAL.FIELD.CODE']>input")
     private WebElement searchCodeInput;
 
+    @FindBy(css = "ms-text-field[placeholder='DISCOUNT.TITLE.DESCRIPTION']>input")
+    private WebElement searchDescriptionInput;
+
     @FindBy(css = "ms-search-button>div>button")
     private WebElement searchButton;
 
@@ -37,6 +40,15 @@ public class DialogContentElements extends BasePOM {
     @FindBy(css = "ms-text-field[formcontrolname='name']>input")
     private WebElement nameInput;
 
+    @FindBy(css = "ms-text-field[formcontrolname='description']>input")
+    private WebElement descriptionInput;
+
+    @FindBy(css = "ms-text-field[formcontrolname='code']>input")
+    private WebElement codeInput;
+
+    @FindBy(css = "ms-integer-field>input")
+    private WebElement priorityInput;
+
     @FindBy(css = "ms-save-button>button")
     private WebElement saveButton;
 
@@ -49,6 +61,20 @@ public class DialogContentElements extends BasePOM {
     // ############# Functions  #############
 
     // #################### Nationality Test Functions Start ####################
+
+    private void searchNationality(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/nationality/list"));
+
+        wait.until(ExpectedConditions.visibilityOf(searchNameInput));
+        searchNameInput.sendKeys(name);
+
+        waitUntilVisibleAndClickableThenClick(searchButton);
+
+        waitUntilTableHasOnlyOneElement();
+
+    }
+
     public void createNationality(String name) {
 
         wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/nationality/list"));
@@ -63,14 +89,7 @@ public class DialogContentElements extends BasePOM {
 
     public void editNationality(String name, String updatedName) {
 
-        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/nationality/list"));
-
-        wait.until(ExpectedConditions.visibilityOf(searchNameInput));
-        searchNameInput.sendKeys(name);
-
-        waitUntilVisibleAndClickableThenClick(searchButton);
-
-        waitUntilTableHasOnlyOneElement();
+        searchNationality(name);
 
         editButton.click();
 
@@ -83,14 +102,7 @@ public class DialogContentElements extends BasePOM {
 
     public void deleteNationality(String name) {
 
-        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/nationality/list"));
-
-        wait.until(ExpectedConditions.visibilityOf(searchNameInput));
-        searchNameInput.sendKeys(name);
-
-        waitUntilVisibleAndClickableThenClick(searchButton);
-
-        waitUntilTableHasOnlyOneElement();
+        searchNationality(name);
 
         deleteButton.click();
 
@@ -99,6 +111,66 @@ public class DialogContentElements extends BasePOM {
     }
 
     // #################### Nationality Test Functions End ####################
+
+
+
+    // #################### Discount Test Functions Start ####################
+
+    private void searchDiscount(String description) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/discounts/list"));
+
+        wait.until(ExpectedConditions.visibilityOf(searchDescriptionInput));
+        searchDescriptionInput.sendKeys(description);
+
+        waitUntilVisibleAndClickableThenClick(searchButton);
+
+        waitUntilTableHasOnlyOneElement();
+
+    }
+
+    public void createDiscount(String description, String integrationCode, String priority) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/discounts/list"));
+
+        addButton.click();
+
+        descriptionInput.sendKeys(description);
+        codeInput.sendKeys(integrationCode);
+        priorityInput.sendKeys(priority);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editDiscount(String description, String updatedDescription, String updatedIntegrationCode, String updatedPriority) {
+
+        searchDiscount(description);
+
+        editButton.click();
+
+        descriptionInput.clear();
+        descriptionInput.sendKeys(updatedDescription);
+        codeInput.clear();
+        codeInput.sendKeys(updatedIntegrationCode);
+        priorityInput.clear();
+        priorityInput.sendKeys(updatedPriority);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deleteDiscount(String description) {
+
+        searchDiscount(description);
+
+        deleteButton.click();
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+    // #################### Discount Test Functions End ####################
 
     public void validateSuccessMessage() {
 
