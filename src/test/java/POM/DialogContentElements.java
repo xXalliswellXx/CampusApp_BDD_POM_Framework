@@ -82,6 +82,31 @@ public class DialogContentElements extends BasePOM {
 
     // ############# Functions  #############
 
+    // If there is no search functionality in the page
+    // this function will search and edit or delete specific data
+    private void searchFromTable(String name, String action) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/grade-level"));
+
+        List<WebElement> gradeLevelsTableRows = driver.findElements(By.cssSelector("tbody>tr"));
+
+        WebElement button;
+
+        for (WebElement row : gradeLevelsTableRows) {
+
+            List<WebElement> cells = row.findElements(By.cssSelector("td"));
+
+            if (cells.get(1).getText().equals(name) && action.equals("edit")) {
+                button = cells.get(6).findElement(By.cssSelector("ms-edit-button>button"));
+                waitUntilVisibleAndClickableThenClick(button);
+            } else if (cells.get(1).getText().equals(name) && action.equals("delete")){
+                button = cells.get(6).findElement(By.cssSelector("ms-delete-button>button"));
+                waitUntilVisibleAndClickableThenClick(button);
+            }
+        }
+
+    }
+
     // #################### Nationality Test Functions Start ####################
 
     private void searchNationality(String name) {
@@ -198,28 +223,6 @@ public class DialogContentElements extends BasePOM {
 
     // #################### Grade Level Test Functions Start ####################
 
-    private void searchGradeLevel(String name, String action) {
-
-        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/grade-level"));
-
-        List<WebElement> gradeLevelsTableRows = driver.findElements(By.cssSelector("tbody>tr"));
-
-        WebElement button;
-
-        for (WebElement row : gradeLevelsTableRows) {
-
-            List<WebElement> cells = row.findElements(By.cssSelector("td"));
-
-            if (cells.get(1).getText().equals(name) && action.equals("edit")) {
-                button = cells.get(6).findElement(By.cssSelector("ms-edit-button>button"));
-                waitUntilVisibleAndClickableThenClick(button);
-            } else if (cells.get(1).getText().equals(name) && action.equals("delete")){
-                button = cells.get(6).findElement(By.cssSelector("ms-delete-button>button"));
-                waitUntilVisibleAndClickableThenClick(button);
-            }
-        }
-
-    }
 
     public void createGradeLevel(String name, String shortName, String order) {
 
@@ -239,7 +242,7 @@ public class DialogContentElements extends BasePOM {
 
     public void editGradeLevel(String name, String updatedName, String updatedShortName, String updatedOrder) {
 
-        searchGradeLevel(name, "edit");
+        searchFromTable(name, "edit");
 
         nameInput.clear();
         nameInput.sendKeys(updatedName);
@@ -254,7 +257,7 @@ public class DialogContentElements extends BasePOM {
 
     public void deleteGradeLevel(String name) {
 
-        searchGradeLevel(name, "delete");
+        searchFromTable(name, "delete");
 
         waitUntilVisibleAndClickableThenClick(submitButton);
 
