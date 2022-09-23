@@ -361,13 +361,14 @@ public class DialogContentElements extends BasePOM {
 
         nameInput.sendKeys(name);
         shortNameInput.sendKeys(shortName);
-        capacityInput.clear();
-        capacityInput.sendKeys(capacity);
 
         selectFromDropdown(type, typeComboBox);
 
-        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(status))
+        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(status)) {
             statusSwitch.click();
+        }
+
+        capacityInput.sendKeys(capacity);
 
         waitUntilVisibleAndClickableThenClick(saveButton);
 
@@ -392,13 +393,15 @@ public class DialogContentElements extends BasePOM {
         nameInput.sendKeys(updatedName);
         shortNameInput.clear();
         shortNameInput.sendKeys(updatedShortName);
-        capacityInput.clear();
-        capacityInput.sendKeys(updatedCapacity);
 
         selectFromDropdown(updatedType, typeComboBox);
 
-        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(updatedStatus))
+        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(updatedStatus)) {
             statusSwitch.click();
+        }
+
+        capacityInput.clear();
+        capacityInput.sendKeys(updatedCapacity);
 
         waitUntilVisibleAndClickableThenClick(saveButton);
 

@@ -4,7 +4,7 @@ import POM.DialogContentElements;
 import POM.NavigationBarElements;
 import io.cucumber.java.en.And;
 
-public class LocationSteps {
+public class LocationsSteps {
 
     NavigationBarElements navigationBarElements;
     DialogContentElements dialogContentElements;
