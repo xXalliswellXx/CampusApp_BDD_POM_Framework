@@ -89,4 +89,12 @@ public class BasePOM {
 
     }
 
+    public void changeStatus(String status, WebElement statusSwitch) {
+
+        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(status)) {
+            statusSwitch.click();
+        }
+
+    }
+
 }

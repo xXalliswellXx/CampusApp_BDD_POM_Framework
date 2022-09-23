@@ -330,8 +330,7 @@ public class DialogContentElements extends BasePOM {
         codeInput.clear();
         codeInput.sendKeys(updatedCode);
 
-        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(updatedStatus))
-            statusSwitch.click();
+        changeStatus(updatedStatus, statusSwitch);
 
         waitUntilVisibleAndClickableThenClick(saveButton);
 
@@ -372,9 +371,7 @@ public class DialogContentElements extends BasePOM {
 
         selectFromDropdown(type, typeComboBox);
 
-        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(status)) {
-            statusSwitch.click();
-        }
+        changeStatus(status, statusSwitch);
 
         capacityInput.sendKeys(capacity);
 
@@ -404,9 +401,7 @@ public class DialogContentElements extends BasePOM {
 
         selectFromDropdown(updatedType, typeComboBox);
 
-        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(updatedStatus)) {
-            statusSwitch.click();
-        }
+        changeStatus(updatedStatus, statusSwitch);
 
         capacityInput.clear();
         capacityInput.sendKeys(updatedCapacity);
