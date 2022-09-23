@@ -30,8 +30,6 @@ public class BasePOM {
 
     public void searchElement(String name, WebElement searchInput, WebElement searchButton) {
 
-        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/bank-account/list"));
-
         wait.until(ExpectedConditions.visibilityOf(searchInput));
         searchInput.sendKeys(name);
 

@@ -154,6 +154,8 @@ public class DialogContentElements extends BasePOM {
 
     public void editDiscount(String description, String updatedDescription, String updatedIntegrationCode, String updatedPriority) {
 
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/discounts/list"));
+
         searchElement(description, searchDescriptionInput, searchButton);
 
         editButton.click();
@@ -170,6 +172,8 @@ public class DialogContentElements extends BasePOM {
     }
 
     public void deleteDiscount(String description) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/discounts/list"));
 
         searchElement(description, searchDescriptionInput, searchButton);
 
@@ -254,6 +258,8 @@ public class DialogContentElements extends BasePOM {
     public void editBankAccount(String name, String updatedName,
                                   String updatedIban, String updatedCurrency, String updatedIntegrationCode) {
 
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/bank-account/list"));
+
         searchElement(name, searchNameInput, searchButton);
 
         editButton.click();
@@ -272,6 +278,8 @@ public class DialogContentElements extends BasePOM {
     }
 
     public void deleteBankAccount(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/bank-account/list"));
 
         searchElement(name,  searchNameInput, searchButton);
 
