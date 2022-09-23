@@ -42,6 +42,15 @@ public class NavigationBarElements extends BasePOM {
     @FindBy(xpath = "//span[text()='Locations']/..")
     private WebElement locationsLink;
 
+    @FindBy(xpath = "//span[text()='Education']/..")
+    private WebElement educationLink;
+
+    @FindBy(xpath = "(//span[text()='Setup'])[4]/..")
+    private WebElement setupLinkUnderEducation;
+
+    @FindBy(xpath = "//span[text()='Subject Categories']/..")
+    private WebElement subjectCategoriesLink;
+
     // ############# Functions  #############
 
     public void navigateToNationalitiesPage() {
@@ -76,9 +85,13 @@ public class NavigationBarElements extends BasePOM {
 
     public void navigateToLocationsPage() {
 
-        waitUntilVisibleAndClickableThenClick(setupLink);
-        waitUntilVisibleAndClickableThenClick(schoolSetupLink);
-        waitUntilVisibleAndClickableThenClick(locationsLink);
+        tryNavigateToPage(setupLink, schoolSetupLink, locationsLink);
+
+    }
+
+    public void navigateToSubjectCategoriesPage() {
+
+        tryNavigateToPage(educationLink, setupLinkUnderEducation, subjectCategoriesLink);
 
     }
 

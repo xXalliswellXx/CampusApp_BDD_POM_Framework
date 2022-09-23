@@ -428,6 +428,60 @@ public class DialogContentElements extends BasePOM {
 
     // #################### Locations Test Functions End ####################
 
+    // #################### Subject Categories Test Functions Start ####################
+
+    public void createSubjectCategory(String name, String code, String status) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/subject-categories/list"));
+
+        addButton.click();
+
+        wait.until(ExpectedConditions.elementToBeClickable(nameInput));
+
+        nameInput.sendKeys(name);
+        codeInput.sendKeys(code);
+
+        changeStatus(status, statusSwitch);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editSubjectCategory(String name, String updatedName, String updatedCode, String updatedStatus) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/subject-categories/list"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(editButton);
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.clear();
+        nameInput.sendKeys(updatedName);
+        codeInput.clear();
+        codeInput.sendKeys(updatedCode);
+
+        changeStatus(updatedStatus, statusSwitch);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deleteSubjectCategory(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/subject-categories/list"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(deleteButton);
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+    // #################### Subject Categories Test Functions Start ####################
+
     public void validateSuccessMessage() {
 
         wait.until(ExpectedConditions.visibilityOf(successMessage));
