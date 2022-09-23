@@ -31,6 +31,6 @@ Feature: Bank Accounts Functionality
     Then Success message should be displayed
 
     Examples:
-    | Name                  |
-    | Test Bank Account 1   |
-    | Test Bank Account 2   |
+    | Name                          |
+    | Updated Test Bank Account 1   |
+    | Updated Test Bank Account 2   |

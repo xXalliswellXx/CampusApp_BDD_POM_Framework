@@ -1,15 +1,11 @@
 package POM;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-
-import java.util.List;
 
 public class DialogContentElements extends BasePOM {
 
@@ -66,9 +62,6 @@ public class DialogContentElements extends BasePOM {
     @FindBy(css = "mat-select[formcontrolname='currency']")
     private WebElement currencyDropdown;
 
-    @FindAll(@FindBy(css = "div[role='listbox']>mat-option"))
-    private List<WebElement> currencyList;
-
     @FindBy(css = "ms-text-field[formcontrolname='integrationCode']>input")
     private WebElement integrationCodeInput;
 
@@ -84,6 +77,12 @@ public class DialogContentElements extends BasePOM {
     @FindBy(css = "mat-slide-toggle[formcontrolname='active']>label>span")
     private WebElement statusSwitch;
 
+    @FindBy(css = "mat-select[formcontrolname='type']")
+    private WebElement typeComboBox;
+
+    @FindBy(css = "ms-integer-field[placeholder='GENERAL.FIELD.CAPACITY']>input")
+    private WebElement capacityInput;
+
     @FindBy(css = "mat-progress-bar[role='progressbar']")
     private WebElement progressBar;
 
@@ -92,43 +91,7 @@ public class DialogContentElements extends BasePOM {
 
     // ############# Functions  #############
 
-    // If there is no search functionality in the page
-    // this function will search and press edit or delete button for specific data
-    private void searchFromTable(String name, String action) {
-
-        List<WebElement> tableRows = driver.findElements(By.cssSelector("tbody>tr"));
-
-        WebElement button;
-
-        for (WebElement row : tableRows) {
-
-            List<WebElement> cells = row.findElements(By.cssSelector("td"));
-
-            if (cells.get(1).getText().equals(name) && action.equals("edit")) {
-                button = cells.get(cells.size() - 1).findElement(By.cssSelector("ms-edit-button>button"));
-                waitUntilVisibleAndClickableThenClick(button);
-            } else if (cells.get(1).getText().equals(name) && action.equals("delete")){
-                button = cells.get(cells.size() - 1).findElement(By.cssSelector("ms-delete-button>button"));
-                waitUntilVisibleAndClickableThenClick(button);
-            }
-        }
-
-    }
-
     // #################### Nationality Test Functions Start ####################
-
-    private void searchNationality(String name) {
-
-        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/nationality/list"));
-
-        wait.until(ExpectedConditions.visibilityOf(searchNameInput));
-        searchNameInput.sendKeys(name);
-
-        waitUntilVisibleAndClickableThenClick(searchButton);
-
-        waitUntilTableHasOnlyOneElement();
-
-    }
 
     public void createNationality(String name) {
 
@@ -144,7 +107,9 @@ public class DialogContentElements extends BasePOM {
 
     public void editNationality(String name, String updatedName) {
 
-        searchNationality(name);
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/nationality/list"));
+
+        searchElement(name, searchNameInput, searchButton);
 
         editButton.click();
 
@@ -157,7 +122,9 @@ public class DialogContentElements extends BasePOM {
 
     public void deleteNationality(String name) {
 
-        searchNationality(name);
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/nationality/list"));
+
+        searchElement(name, searchNameInput, searchButton);
 
         deleteButton.click();
 
@@ -170,19 +137,6 @@ public class DialogContentElements extends BasePOM {
 
 
     // #################### Discount Test Functions Start ####################
-
-    private void searchDiscount(String description) {
-
-        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/discounts/list"));
-
-        wait.until(ExpectedConditions.visibilityOf(searchDescriptionInput));
-        searchDescriptionInput.sendKeys(description);
-
-        waitUntilVisibleAndClickableThenClick(searchButton);
-
-        waitUntilTableHasOnlyOneElement();
-
-    }
 
     public void createDiscount(String description, String integrationCode, String priority) {
 
@@ -200,7 +154,7 @@ public class DialogContentElements extends BasePOM {
 
     public void editDiscount(String description, String updatedDescription, String updatedIntegrationCode, String updatedPriority) {
 
-        searchDiscount(description);
+        searchElement(description, searchDescriptionInput, searchButton);
 
         editButton.click();
 
@@ -217,7 +171,7 @@ public class DialogContentElements extends BasePOM {
 
     public void deleteDiscount(String description) {
 
-        searchDiscount(description);
+        searchElement(description, searchDescriptionInput, searchButton);
 
         deleteButton.click();
 
@@ -281,31 +235,6 @@ public class DialogContentElements extends BasePOM {
 
     // #################### Bank Account Test Functions Start ####################
 
-
-    private void searchBankAccount(String name) {
-
-        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/bank-account/list"));
-
-        wait.until(ExpectedConditions.visibilityOf(searchNameInput));
-        searchNameInput.sendKeys(name);
-
-        waitUntilVisibleAndClickableThenClick(searchButton);
-
-        waitUntilTableHasOnlyOneElement();
-
-    }
-
-    private void selectCurrency(String currency) {
-
-        currencyDropdown.click();
-
-        for (WebElement element : currencyList) {
-            if (element.getText().contains(currency))
-                element.click();
-        }
-
-    }
-
     public void createBankAccount(String name, String iban, String currency, String integrationCode) {
 
         wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/bank-account/list"));
@@ -316,7 +245,7 @@ public class DialogContentElements extends BasePOM {
         ibanInput.sendKeys(iban);
         integrationCodeInput.sendKeys(integrationCode);
 
-        selectCurrency(currency);
+        selectFromDropdown(currency, currencyDropdown);
 
         waitUntilVisibleAndClickableThenClick(saveButton);
 
@@ -325,7 +254,7 @@ public class DialogContentElements extends BasePOM {
     public void editBankAccount(String name, String updatedName,
                                   String updatedIban, String updatedCurrency, String updatedIntegrationCode) {
 
-        searchBankAccount(name);
+        searchElement(name, searchNameInput, searchButton);
 
         editButton.click();
 
@@ -336,7 +265,7 @@ public class DialogContentElements extends BasePOM {
         ibanInput.sendKeys(updatedIban);
         integrationCodeInput.sendKeys(updatedIntegrationCode);
 
-        selectCurrency(updatedCurrency);
+        selectFromDropdown(updatedCurrency, currencyDropdown);
 
         waitUntilVisibleAndClickableThenClick(saveButton);
 
@@ -344,7 +273,7 @@ public class DialogContentElements extends BasePOM {
 
     public void deleteBankAccount(String name) {
 
-        searchBankAccount(name);
+        searchElement(name,  searchNameInput, searchButton);
 
         deleteButton.click();
 
@@ -417,6 +346,81 @@ public class DialogContentElements extends BasePOM {
     }
 
     // #################### Departments Test Functions End ####################
+
+    // #################### Locations Test Functions Start ####################
+
+    public void createLocation(String name, String shortName, String type, String capacity, String status) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/school-location"));
+
+        selectFromDropdown("Campus Project", searchComboBox);
+
+        addButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.sendKeys(name);
+        shortNameInput.sendKeys(shortName);
+        capacityInput.clear();
+        capacityInput.sendKeys(capacity);
+
+        selectFromDropdown(type, typeComboBox);
+
+        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(status))
+            statusSwitch.click();
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editLocation(String name,String updatedName, String updatedShortName,
+                              String updatedType, String updatedCapacity, String updatedStatus) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/school-location"));
+
+        selectFromDropdown("Campus Project", searchComboBox);
+
+        waitUntilVisibleAndClickableThenClick(searchButton);
+
+        wait.until(ExpectedConditions.invisibilityOf(progressBar));
+
+        searchFromTable(name, "edit");
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.clear();
+        nameInput.sendKeys(updatedName);
+        shortNameInput.clear();
+        shortNameInput.sendKeys(updatedShortName);
+        capacityInput.clear();
+        capacityInput.sendKeys(updatedCapacity);
+
+        selectFromDropdown(updatedType, typeComboBox);
+
+        if (!statusSwitch.findElement(By.cssSelector("input")).getAttribute("aria-checked").equals(updatedStatus))
+            statusSwitch.click();
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deleteLocation(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/school-location"));
+
+        selectFromDropdown("Campus Project", searchComboBox);
+
+        waitUntilVisibleAndClickableThenClick(searchButton);
+
+        wait.until(ExpectedConditions.invisibilityOf(progressBar));
+
+        searchFromTable(name, "delete");
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+    // #################### Locations Test Functions End ####################
 
     public void validateSuccessMessage() {
 

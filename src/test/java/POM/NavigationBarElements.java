@@ -39,42 +39,47 @@ public class NavigationBarElements extends BasePOM {
     @FindBy(xpath = "//span[text()='Departments']/..")
     private WebElement departmentsLink;
 
+    @FindBy(xpath = "//span[text()='Locations']/..")
+    private WebElement locationsLink;
+
     // ############# Functions  #############
 
     public void navigateToNationalitiesPage() {
 
-        waitUntilVisibleAndClickableThenClick(setupLink);
-        waitUntilVisibleAndClickableThenClick(parametersLink);
-        waitUntilVisibleAndClickableThenClick(nationalitiesLink);
+        tryNavigateToPage(setupLink, parametersLink, nationalitiesLink);
 
     }
 
     public void navigateToDiscountsPage() {
 
-        waitUntilVisibleAndClickableThenClick(setupLink);
-        waitUntilVisibleAndClickableThenClick(parametersLink);
-        waitUntilVisibleAndClickableThenClick(discountsLink);
+        tryNavigateToPage(setupLink, parametersLink, discountsLink);
 
     }
 
     public void navigateToGradeLevelsPage() {
 
-        waitUntilVisibleAndClickableThenClick(setupLink);
-        waitUntilVisibleAndClickableThenClick(parametersLink);
-        waitUntilVisibleAndClickableThenClick(gradeLevelsLink);
+        tryNavigateToPage(setupLink, parametersLink, gradeLevelsLink);
 
     }
 
     public void navigateToBankAccountsPage() {
-        waitUntilVisibleAndClickableThenClick(setupLink);
-        waitUntilVisibleAndClickableThenClick(parametersLink);
-        waitUntilVisibleAndClickableThenClick(bankAccountsLink);
+
+        tryNavigateToPage(setupLink, parametersLink, bankAccountsLink);
+
     }
 
     public void navigateToDepartmentsPage() {
+
+        tryNavigateToPage(setupLink, schoolSetupLink, departmentsLink);
+
+    }
+
+    public void navigateToLocationsPage() {
+
         waitUntilVisibleAndClickableThenClick(setupLink);
         waitUntilVisibleAndClickableThenClick(schoolSetupLink);
-        waitUntilVisibleAndClickableThenClick(departmentsLink);
+        waitUntilVisibleAndClickableThenClick(locationsLink);
+
     }
 
 }
