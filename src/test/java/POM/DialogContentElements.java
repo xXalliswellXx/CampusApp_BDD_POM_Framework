@@ -482,6 +482,60 @@ public class DialogContentElements extends BasePOM {
 
     // #################### Subject Categories Test Functions Start ####################
 
+    // #################### Positions Test Functions Start ####################
+
+    public void createPosition(String name, String shortName, String status) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/employee-position"));
+
+        addButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.sendKeys(name);
+        shortNameInput.sendKeys(shortName);
+
+        changeStatus(status, statusSwitch);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editPosition(String name, String updatedName,String updatedShortName, String updatedStatus) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/employee-position"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(editButton);
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.clear();
+        nameInput.sendKeys(updatedName);
+        shortNameInput.clear();
+        shortNameInput.sendKeys(updatedShortName);
+
+        changeStatus(updatedStatus, statusSwitch);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deletePosition(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/employee-position"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(deleteButton);
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+    // #################### Positions Test Functions End ####################
+
     public void validateSuccessMessage() {
 
         wait.until(ExpectedConditions.visibilityOf(successMessage));
