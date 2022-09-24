@@ -63,6 +63,9 @@ public class NavigationBarElements extends BasePOM {
     @FindBy(xpath = "//span[text()='Fields']/..")
     private WebElement fieldsLink;
 
+    @FindBy(xpath = "//span[text()='Attestations']/..")
+    private WebElement attestationsLink;
+
     // ############# Functions  #############
 
     public void navigateToNationalitiesPage() {
@@ -116,6 +119,12 @@ public class NavigationBarElements extends BasePOM {
     public void navigateToFieldsPage() {
 
         tryNavigateToPage(setupLink, parametersLink, fieldsLink);
+
+    }
+
+    public void navigateToAttestationsPage() {
+
+        tryNavigateToPage(humanResourcesLink, setupLinkUnderHumanResources, attestationsLink);
 
     }
 

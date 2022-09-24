@@ -587,6 +587,53 @@ public class DialogContentElements extends BasePOM {
 
     // #################### Fields Test Functions End ####################
 
+    // #################### Attestations Test Functions Start ####################
+
+    public void createAttestation(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/attestation/list"));
+
+        addButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.sendKeys(name);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editAttestation(String name, String updatedName) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/attestation/list"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(editButton);
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.clear();
+        nameInput.sendKeys(updatedName);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deleteAttestation(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/attestation/list"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(deleteButton);
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+    // #################### Attestations Test Functions End ####################
+
     public void validateSuccessMessage() {
 
         wait.until(ExpectedConditions.visibilityOf(successMessage));
