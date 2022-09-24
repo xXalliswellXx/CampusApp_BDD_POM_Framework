@@ -1,4 +1,4 @@
-Feature: Bank Accounts Functionality
+Feature: Subject Categories Functionality
 
   Background: Login Function
     Given User is on login page
