@@ -1,6 +1,5 @@
 package POM;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -535,6 +534,58 @@ public class DialogContentElements extends BasePOM {
     }
 
     // #################### Positions Test Functions End ####################
+
+    // #################### Fields Test Functions Start ####################
+
+    public void createField(String name, String code, String fieldType) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/entity-fields/list"));
+
+        addButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.sendKeys(name);
+        codeInput.sendKeys(code);
+
+        selectFromDropdown(fieldType, typeComboBox);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editField(String name, String updatedName, String updatedCode) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/entity-fields/list"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(editButton);
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.clear();
+        nameInput.sendKeys(updatedName);
+        codeInput.clear();
+        codeInput.sendKeys(updatedCode);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deleteField(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/entity-fields/list"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(deleteButton);
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+    // #################### Fields Test Functions End ####################
 
     public void validateSuccessMessage() {
 
