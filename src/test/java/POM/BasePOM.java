@@ -1,13 +1,12 @@
 package POM;
 
 import Utils.Driver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.List;
 
@@ -72,6 +71,37 @@ public class BasePOM {
             if (element.getText().contains(selection))
                 waitUntilVisibleAndClickableThenClick(element);
         }
+
+    }
+
+    public void multipleSelectFromDropdown(String[] selections, WebElement elementToClick) {
+
+        waitUntilVisibleAndClickableThenClick(elementToClick);
+
+        List<WebElement> elementList = driver.findElements(By.cssSelector("mat-option>span"));
+
+        List<WebElement> checkBoxList = driver.findElements(By.cssSelector("mat-option[role='option']"));
+
+        for (int i = 0; i < elementList.size(); i++) {
+
+            for (String selection : selections) {
+
+                if (elementList.get(i).getText().equals(selection) && checkBoxList.get(i).getAttribute("aria-selected").equals("false")) {
+                    elementList.get(i).click();
+                    break;
+                } else if (checkBoxList.get(i).getAttribute("aria-selected").equals("true"))
+                    elementList.get(i).click();
+
+            }
+
+
+        }
+
+        try {
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_ESCAPE);
+            robot.keyRelease(KeyEvent.VK_ESCAPE);
+        } catch (AWTException ignore) {}
 
     }
 

@@ -6,6 +6,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class DialogContentElements extends BasePOM {
 
     // ############# Constructor  #############
@@ -43,6 +46,9 @@ public class DialogContentElements extends BasePOM {
     @FindBy(css = "ms-text-field[formcontrolname='description']>input")
     private WebElement descriptionInput;
 
+    @FindBy(css = "textarea[formcontrolname='description']")
+    private WebElement descriptionTextArea;
+
     @FindBy(css = "ms-text-field[formcontrolname='code']>input")
     private WebElement codeInput;
 
@@ -76,6 +82,12 @@ public class DialogContentElements extends BasePOM {
     @FindBy(css = "mat-slide-toggle[formcontrolname='active']>label>span")
     private WebElement statusSwitch;
 
+    @FindBy(css = "mat-slide-toggle[formcontrolname='required']>label>span")
+    private WebElement requiredSwitch;
+
+    @FindBy(css = "mat-slide-toggle[formcontrolname='useCamera']>label>span")
+    private WebElement cameraSwitch;
+
     @FindBy(css = "mat-select[formcontrolname='type']")
     private WebElement typeComboBox;
 
@@ -87,6 +99,9 @@ public class DialogContentElements extends BasePOM {
 
     @FindBy(css = "mat-select[role='combobox']")
     private WebElement searchComboBox;
+
+    @FindBy(xpath = "(//mat-select[@role='combobox'])[3]")
+    private WebElement stageComboBox;
 
     // ############# Functions  #############
 
@@ -681,6 +696,68 @@ public class DialogContentElements extends BasePOM {
     }
 
     // #################### Position Categories Test Functions End ####################
+
+
+    // #################### Document Types Test Functions Start ####################
+
+    public void createDocumentType(String name, String stage, String description,
+                                   String required, String status, String camera) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/document-types"));
+
+        addButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.sendKeys(name);
+
+        multipleSelectFromDropdown(stage.replace(" ", "").split(","), stageComboBox);
+
+        descriptionTextArea.sendKeys(description);
+
+        changeStatus(required, requiredSwitch);
+        changeStatus(status, statusSwitch);
+        changeStatus(camera, cameraSwitch);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editDocumentType(String name, String updatedName,String updatedStage, String updatedDescription,
+                                 String updatedRequired, String updatedStatus, String updatedCamera) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/document-types"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(editButton);
+
+        nameInput.clear();
+        nameInput.sendKeys(updatedName);
+
+        multipleSelectFromDropdown(updatedStage.replace(" ", "").split(","), stageComboBox);
+
+        changeStatus(updatedRequired, requiredSwitch);
+        changeStatus(updatedStatus, statusSwitch);
+        changeStatus(updatedCamera, cameraSwitch);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deleteDocumentType(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/document-types"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(deleteButton);
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+    // #################### Document Types Test Functions End ####################
 
 
     public void validateSuccessMessage() {
