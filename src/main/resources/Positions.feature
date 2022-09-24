@@ -1,4 +1,4 @@
-Feature: Bank Accounts Functionality
+Feature: Positions Functionality
 
   Background: Login Function
     Given User is on login page
