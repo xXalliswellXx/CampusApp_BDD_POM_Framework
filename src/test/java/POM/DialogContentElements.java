@@ -634,6 +634,55 @@ public class DialogContentElements extends BasePOM {
 
     // #################### Attestations Test Functions End ####################
 
+
+    // #################### Position Categories Test Functions Start ####################
+
+    public void createPositionCategories(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/position-category/list"));
+
+        addButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.sendKeys(name);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void editPositionCategories(String name, String updatedName) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/position-category/list"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(editButton);
+
+        wait.until(ExpectedConditions.visibilityOf(nameInput));
+
+        nameInput.clear();
+        nameInput.sendKeys(updatedName);
+
+        waitUntilVisibleAndClickableThenClick(saveButton);
+
+    }
+
+    public void deletePositionCategories(String name) {
+
+        wait.until(ExpectedConditions.urlToBe("https://demo.mersys.io/position-category/list"));
+
+        searchElement(name, searchNameInput, searchButton);
+
+        waitUntilVisibleAndClickableThenClick(deleteButton);
+
+        waitUntilVisibleAndClickableThenClick(submitButton);
+
+    }
+
+    // #################### Position Categories Test Functions End ####################
+
+
     public void validateSuccessMessage() {
 
         wait.until(ExpectedConditions.visibilityOf(successMessage));
