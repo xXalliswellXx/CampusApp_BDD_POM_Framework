@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>19</maven.compiler.source>
-        <maven.compiler.target>19</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -20,14 +20,14 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.4.0</version>
+            <version>4.5.0</version>
         </dependency>
 
         <!--        This repository will help cucumber to connect with java  -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>7.7.0</version>
+            <version>7.8.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
-            <version>7.7.0</version>
+            <version>7.8.1</version>
         </dependency>
 
         <!-- System.setProperty......  -->
@@ -57,14 +57,14 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.1</version>
+            <version>2.0.3</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.1</version>
+            <version>2.0.3</version>
             <scope>test</scope>
         </dependency>
 
